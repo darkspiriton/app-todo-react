@@ -1,28 +1,25 @@
-import { useState } from "react";
-// import reactLogo from "./assets/react.svg";
-// import viteLogo from "/vite.svg";
+import { TodoCounter } from "./components/TodoCounter";
+import { TodoSearch } from "./components/TodoSearch";
+import { TodoList } from "./components/TodoList";
+import { TodoItem } from "./components/TodoItem";
+import { CreateTodoButton } from "./components/CreateTodoButton";
+
 import "./App.css";
 
-function TodoItem() {
-  return (
-    <li>
-      <span>V</span>
-      <p>Llorar con la Llorona</p>
-      <span>X</span>
-    </li>
-  );
-}
-
 function App() {
-  // const [count] = useState(0);
-
+  const title = "Learn React";
   return (
     <>
-      {/* Hello Vite + React! {count} */}
       <div className="App">
-        <TodoItem></TodoItem>
-        <TodoItem></TodoItem>
-        <TodoItem></TodoItem>
+        <TodoCounter/>
+        <TodoSearch/>
+
+        <TodoList>
+          <TodoItem title={"Ejemplo"}/>
+          <TodoItem title={title}/>
+          <TodoItem title={title}/>
+        </TodoList>
+        <CreateTodoButton />
       </div>
     </>
   );
