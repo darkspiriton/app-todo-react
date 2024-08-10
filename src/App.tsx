@@ -31,17 +31,32 @@ const defaultTodos = [
 ];
 
 const defaultStatus = [
-  { title: "Total", count: 2 },
-  { title: "Completed", count: 1 },
-  { title: "On going", count: 1 },
-  { title: "Starter", count: 0 },
+  { title: "Total", count: 2, colorBackgound: "#EDF2FE", colotText: "#0556FF" },
+  {
+    title: "Completed",
+    count: 1,
+    colorBackgound: "#FFEFE0",
+    colotText: "#EE7C18",
+  },
+  {
+    title: "On going",
+    count: 1,
+    colorBackgound: "#FEEEFF",
+    colotText: "#FB41FF",
+  },
+  {
+    title: "Starter",
+    count: 0,
+    colorBackgound: "#F0EBFD",
+    colotText: "#724CE2",
+  },
 ];
 
 function App() {
   return (
     <React.Fragment>
       <section className="bg-[#F2F5FF] h-screen grid gap-4 grid-cols-4 py-10 px-24">
-        <article className="bg-white col-span-3 rounded-2xl p-5 flex flex-col gap-5">
+        <article className="bg-[#FDFDFD] col-span-3 rounded-2xl p-5 flex flex-col gap-5">
           <header>
             <h2 className="text-4xl font-bold">Tasks</h2>
           </header>
@@ -61,15 +76,15 @@ function App() {
             })}
           </main>
         </article>
-        <article className="bg-white col-span-1 rounded-2xl p-5 flex flex-col gap-5">
+        <article className="bg-[#FDFDFD] col-span-1 rounded-2xl p-5 flex flex-col gap-5">
           <header>
-            <h2 className="text-2xl text-gray-600 font-bold">Progress</h2>
+            <h2 className="text-4xl text-gray-600 font-bold">Progress</h2>
           </header>
           <main>
-            <section className="min-h-40">graph</section>
+            {/* <section className="min-h-40">graph</section> */}
             <section className="flex flex-col gap-4">
               <header>
-                <h3>Status</h3>
+                <h3 className="text-md font-bold">Status</h3>
               </header>
               <main className="grid grid-cols-2 gap-2">
                 {defaultStatus.map((status, index) => (
@@ -77,6 +92,8 @@ function App() {
                     key={index}
                     title={status.title}
                     count={status.count}
+                    colorBackgound={status.colorBackgound}
+                    colorText={status.colotText}
                   />
                 ))}
               </main>
