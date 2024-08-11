@@ -1,27 +1,44 @@
+
 import React from "react";
-import "./App.css";
-import { TodoColumn } from "./components/TodoColumn";
-import { TodoItem } from "./components/TodoItem";
-import { TodoStatus } from "./components/TodoStatus";
+import "./index.css";
+import { TodoItem } from "../components/TodoItem/index";
+import { TodoStatus } from "../components/TodoStatus/index";
+import { TodoColumn } from "../components/TodoColumn/index";
+import { useLocalStorage } from "./useLocalStorage";
 // import { TodoSearch } from "./components/TodoSearch";
+
+interface Todo {
+  text: string;
+  tag: string;
+  progress: number;
+}
+interface TodoColumn {
+  title: string;
+  state: string;
+  todos: Todo[];
+}
 
 const defaultTodos = [
   {
     title: "Starter",
     state: "starter",
-    todos: [{ text: "Cortar cebolla", tag: "Food", progress: 50 }],
+    todos: [
+      // { text: "Cortar cebolla", tag: "Food", progress: 50 }
+    ],
   },
   {
     title: "On going",
     state: "ongoing",
     todos: [
-      { text: "Tomar el curso de intro a React", tag: "Study", progress: 10 },
+      // { text: "Tomar el curso de intro a React", tag: "Study", progress: 10 },
     ],
   },
   {
     title: "Completed",
     state: "completed",
-    todos: [{ text: "Llorar con la llorona", tag: "Fun", progress: 40 }],
+    todos: [
+      // { text: "Llorar con la llorona", tag: "Fun", progress: 40 }
+    ],
   },
 ];
 
@@ -57,30 +74,31 @@ const defaultStatus = [
 ];
 
 function App() {
-  const [todos, setTodos] = React.useState(defaultTodos);
+  const [todos, saveTodos] = useLocalStorage("todos", defaultTodos);
   const [status, setStatus] = React.useState(defaultStatus);
+
   const createTodo = (state: string) => {
     const newTodos = [...todos];
     const todoIndex = newTodos.findIndex((todo) => todo.state === state);
     const newTodo = { text: "New todo", tag: "New", progress: 0 };
     newTodos[todoIndex].todos.push(newTodo);
-    setTodos(newTodos);
+    saveTodos(newTodos);
   };
   const deleteTodo = (state: string, text: string) => {
     const newTodos = [...todos];
     const todoIndex = newTodos.findIndex((todo) => todo.state === state);
     const todoItemIndex = newTodos[todoIndex].todos.findIndex(
-      (todo) => todo.text === text
+      (todo: Todo) => todo.text === text
     );
     newTodos[todoIndex].todos.splice(todoItemIndex, 1);
-    setTodos(newTodos);
+    saveTodos(newTodos);
   };
   const moveTodo = (state: string, text: string) => {
     // console.log("moveTodo", state, text);
     const newTodos = [...todos];
     const todoIndex = newTodos.findIndex((todo) => todo.state === state);
     const todoItemIndex = newTodos[todoIndex].todos.findIndex(
-      (todo) => todo.text === text
+      (todo: Todo) => todo.text === text
     );
     const todoItem = newTodos[todoIndex].todos[todoItemIndex];
     newTodos[todoIndex].todos.splice(todoItemIndex, 1);
@@ -93,13 +111,22 @@ function App() {
     if (state === "completed") {
       newTodos.find((todo) => todo.state === "starter")?.todos.push(todoItem);
     }
-    setTodos(newTodos);
+    saveTodos(newTodos);
   };
+
   React.useEffect(() => {
     setStatus((statusArray) => {
       return statusArray.map((status) => {
         const countTotal = todos.reduce(
-          (acc, todo) => {
+          (
+            acc: {
+              total: number;
+              completed: number;
+              ongoing: number;
+              starter: number;
+            },
+            todo: TodoColumn
+          ) => {
             acc.total += todo.todos.length;
             if (todo.state === "completed") acc.completed = todo.todos.length;
             if (todo.state === "ongoing") acc.ongoing = todo.todos.length;
@@ -121,6 +148,7 @@ function App() {
       });
     });
   }, [todos]);
+
   return (
     <React.Fragment>
       <section className="bg-[#F2F5FF] h-screen grid gap-4 grid-cols-4 py-10 lg:px-2 xl:px-24">
@@ -129,7 +157,7 @@ function App() {
             <h2 className="text-4xl font-bold">Tasks</h2>
           </header>
           <main className="flex h-full gap-4">
-            {todos.map((todo, index) => {
+            {todos.map((todo: TodoColumn, index: number) => {
               return (
                 <TodoColumn
                   key={index}

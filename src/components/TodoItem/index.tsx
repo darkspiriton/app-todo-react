@@ -1,3 +1,8 @@
+import {
+  MdOutlineRemoveCircleOutline,
+  MdOutlineArrowCircleRight,
+} from "react-icons/md";
+
 function TodoItem({
   text,
   tag,
@@ -18,9 +23,11 @@ function TodoItem({
           {tag}
         </p>
         <div className="flex gap-2">
-          <button onClick={onDelete}>-</button>
-          <button onClick={onMove} className="text-xs">
-            move
+          <button onClick={onDelete} className="hover:rotate-180 duration-300 hover:text-red-600 text-lg">
+            <MdOutlineRemoveCircleOutline></MdOutlineRemoveCircleOutline>
+          </button>
+          <button onClick={onMove} className="text-lg hover:text-blue-400">
+            <MdOutlineArrowCircleRight></MdOutlineArrowCircleRight>
           </button>
         </div>
       </header>
