@@ -2,7 +2,8 @@ import React from "react";
 import "./index.css";
 import { AppUI } from "./AppUI";
 import { useLocalStorage } from "./useLocalStorage";
-import { TodoDataColumn, Todo } from "./interfaces";
+import { useStatusProgress } from "./useStatusProgress";
+import { Todo, Status } from "./interfaces";
 
 const defaultTodos = [
   {
@@ -34,34 +35,49 @@ const defaultStatus = [
     state: "total",
     count: 0,
     colorBackgound: "#EDF2FE",
-    colotText: "#0556FF",
+    colorText: "#0556FF",
   },
   {
     title: "Completed",
     state: "completed",
     count: 0,
     colorBackgound: "#FFEFE0",
-    colotText: "#EE7C18",
+    colorText: "#EE7C18",
   },
   {
     title: "On going",
     state: "ongoing",
     count: 0,
     colorBackgound: "#FEEEFF",
-    colotText: "#FB41FF",
+    colorText: "#FB41FF",
   },
   {
     title: "Starter",
     state: "starter",
     count: 0,
     colorBackgound: "#F0EBFD",
-    colotText: "#724CE2",
+    colorText: "#724CE2",
   },
 ];
 
 function App() {
-  const [todos, saveTodos] = useLocalStorage("todos", defaultTodos);
-  const [status, setStatus] = React.useState(defaultStatus);
+  const {
+    item: todos,
+    saveItem: saveTodos,
+    loading: loadingTodos,
+    error: errorTodos,
+  } = useLocalStorage("todos", defaultTodos);
+
+  const {
+    status,
+    saveStatus,
+    loading: loadingStatus,
+    error: errorStatus,
+  } = useStatusProgress(defaultStatus);
+
+  React.useEffect(() => {
+    saveStatus(todos);
+  },[todos]);
 
   const createTodo = (state: string) => {
     const newTodos = [...todos];
@@ -100,47 +116,17 @@ function App() {
     saveTodos(newTodos);
   };
 
-  React.useEffect(() => {
-    setStatus((statusArray) => {
-      return statusArray.map((status) => {
-        const countTotal = todos.reduce(
-          (
-            acc: {
-              total: number;
-              completed: number;
-              ongoing: number;
-              starter: number;
-            },
-            todo: TodoDataColumn
-          ) => {
-            acc.total += todo.todos.length;
-            if (todo.state === "completed") acc.completed = todo.todos.length;
-            if (todo.state === "ongoing") acc.ongoing = todo.todos.length;
-            if (todo.state === "starter") acc.starter = todo.todos.length;
-            return acc;
-          },
-          { total: 0, completed: 0, ongoing: 0, starter: 0 }
-        );
-        const statusCounts: { [key: string]: number } = {
-          total: countTotal.total,
-          completed: countTotal.completed,
-          ongoing: countTotal.ongoing,
-          starter: countTotal.starter,
-        };
-        return {
-          ...status,
-          count: statusCounts[status.state] || 0,
-        };
-      });
-    });
-  }, [todos]);
   return (
     <AppUI
       todos={todos}
-      status={status}
+      status={status as Status[]}
       createTodo={createTodo}
       deleteTodo={deleteTodo}
       moveTodo={moveTodo}
+      loadingTodos={loadingTodos}
+      errorTodos={errorTodos}
+      loadingStatus={loadingStatus}
+      errorStatus={errorStatus}
     ></AppUI>
   );
 }

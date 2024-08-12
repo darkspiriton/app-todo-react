@@ -9,4 +9,12 @@ interface TodoDataColumn {
   todos: Todo[];
 }
 
-export type { Todo, TodoDataColumn };
+interface Status {
+  title: string;
+  state: string;
+  count: number;
+  colorBackgound: string;
+  colorText: string;
+}
+
+export type { Todo, TodoDataColumn, Status };
