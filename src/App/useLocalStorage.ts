@@ -1,24 +1,14 @@
 import React from "react";
+import { TodoDataColumn } from "./interfaces";
 
-interface Todo {
-  text: string;
-  tag: string;
-  progress: number;
-}
-interface TodoColumn {
-  title: string;
-  state: string;
-  todos: Todo[];
-}
-
-const useLocalStorage = (itemName: string, itemValue: TodoColumn[]) => {
+const useLocalStorage = (itemName: string, itemValue: TodoDataColumn[]) => {
   const storedItem = localStorage.getItem(itemName);
   if (!storedItem) {
     localStorage.setItem(itemName, JSON.stringify(itemValue));
   }
   const parseItem = storedItem ? JSON.parse(storedItem) : itemValue;
   const [item, setItem] = React.useState(parseItem);
-  const saveTodos = (newTodos: TodoColumn[]) => {
+  const saveTodos = (newTodos: TodoDataColumn[]) => {
     localStorage.setItem(itemName, JSON.stringify(newTodos));
     setItem(newTodos);
   };
