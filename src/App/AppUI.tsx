@@ -3,6 +3,9 @@ import { TodoItem } from "../components/TodoItem/index";
 import { TodoStatus } from "../components/TodoStatus/index";
 import { TodoColumn } from "../components/TodoColumn/index";
 import { TodoDataColumn, Status } from "./interfaces";
+import { LoadingTodos } from "../components/LoadingTodos";
+import { ErrorTodos } from "../components/ErrorTodos";
+import { EmptyTodos } from "../components/EmptyTodos";
 
 function AppUI({
   todos,
@@ -32,32 +35,34 @@ function AppUI({
           <header>
             <h2 className="text-4xl font-bold">Tasks</h2>
           </header>
-          <main className="flex h-full gap-4">
-            {loadingTodos && <p>Loading Todos...</p>}
-            {!loadingTodos && errorTodos && <p>Error Todos...</p>}
+          <main className="flex h-full gap-4 justify-center">
+            {loadingTodos && <LoadingTodos />}
+            {!loadingTodos && errorTodos && <ErrorTodos />}
             {!loadingTodos && !errorTodos && todos.length === 0 && (
-              <p>No data...</p>
+              <EmptyTodos />
             )}
-            {!loadingTodos && !errorTodos && todos.map((todo: TodoDataColumn, index: number) => {
-              return (
-                <TodoColumn
-                  key={index}
-                  title={todo.title}
-                  onCreate={() => createTodo(todo.state)}
-                >
-                  {todo.todos.map((itemTodo, index) => (
-                    <TodoItem
-                      key={index}
-                      text={itemTodo.text}
-                      tag={itemTodo.tag}
-                      progress={itemTodo.progress}
-                      onDelete={() => deleteTodo(todo.state, itemTodo.text)}
-                      onMove={() => moveTodo(todo.state, itemTodo.text)}
-                    />
-                  ))}
-                </TodoColumn>
-              );
-            })}
+            {!loadingTodos &&
+              !errorTodos &&
+              todos.map((todo: TodoDataColumn, index: number) => {
+                return (
+                  <TodoColumn
+                    key={index}
+                    title={todo.title}
+                    onCreate={() => createTodo(todo.state)}
+                  >
+                    {todo.todos.map((itemTodo, index) => (
+                      <TodoItem
+                        key={index}
+                        text={itemTodo.text}
+                        tag={itemTodo.tag}
+                        progress={itemTodo.progress}
+                        onDelete={() => deleteTodo(todo.state, itemTodo.text)}
+                        onMove={() => moveTodo(todo.state, itemTodo.text)}
+                      />
+                    ))}
+                  </TodoColumn>
+                );
+              })}
           </main>
         </article>
         <article className="bg-[#FDFDFD] col-span-1 rounded-2xl p-5 flex flex-col gap-5">
