@@ -24,7 +24,7 @@ function TodoColumn({
           {title}
         </h3>
         {createEnable.includes(state) && (
-          <CreateTodoButton onCreate={onOpenModal}></CreateTodoButton>
+          <CreateTodoButton onOpenModal={onOpenModal}></CreateTodoButton>
         )}
       </header>
       <ul className="flex flex-col gap-4">{children}</ul>

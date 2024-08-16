@@ -80,14 +80,13 @@ function TodoProvider({ children }) {
     saveStatus(todos);
   }, [todos]);
 
-  const createTodo = (state: string) => {
-    console.log("createTodo", state);
-    // const newTodos = [...todos];
-    // const todoIndex = newTodos.findIndex((todo) => todo.state === state);
+  const createTodo = (state: string, todo: Todo) => {
+    // console.log("createTodo", state);
+    const newTodos = [...todos];
+    const todoIndex = newTodos.findIndex((todo) => todo.state === state);
     // const newTodo = { text: "New todo", tag: "New", progress: 0 };
-    // newTodos[todoIndex].todos.push(newTodo);
-    // saveTodos(newTodos);
-    // setOpenModal(true);
+    newTodos[todoIndex].todos.push(todo);
+    saveTodos(newTodos);
   };
   const deleteTodo = (state: string, text: string) => {
     const newTodos = [...todos];

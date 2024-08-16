@@ -8,6 +8,7 @@ import { ErrorTodos } from "../components/ErrorTodos";
 import { EmptyTodos } from "../components/EmptyTodos";
 import { TodoContext } from "../components/TodoContext";
 import { Modal } from "../components/Modal";
+import { TodoForm } from "../components/TodoForm";
 // import { TodoSearch } from "../components/TodoSearch";
 
 function AppUI() {
@@ -50,7 +51,7 @@ function AppUI() {
                     state={todo.state}
                     onOpenModal={() => {
                       setCreateState(todo.state);
-                      setOpenModal(true);
+                      setOpenModal((state) => !state);
                     }}
                   >
                     {todo.todos.map((itemTodo, index) => (
@@ -100,25 +101,7 @@ function AppUI() {
       </section>
       {openModal && (
         <Modal>
-          {/* <ModalContent>
-              <h2 className="text-2xl font-bold">Create a new task</h2>
-              <form onSubmit={handleSubmit}>
-                <input
-                  type="text"
-                  placeholder="Task name"
-                  className="w-full p-2 my-2 border border-gray-300 rounded"
-                  value={taskName}
-                  onChange={(e) => setTaskName(e.target.value)}
-                />
-                <button
-                  type="submit"
-                  className="w-full bg-blue-500 text-white p-2 rounded"
-                >
-                  Create task
-                </button>
-              </form>
-            </ModalContent> */}
-          texto a teletransportar {createState}
+          <TodoForm state={createState} />
         </Modal>
       )}
     </React.Fragment>
