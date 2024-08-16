@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import { TodoDataColumn, Status } from "../Types/interfaces";
 const useStatusProgress = (

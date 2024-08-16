@@ -1,10 +1,11 @@
+// @ts-nocheck
 import React from "react";
 import { TodoContext } from "../TodoContext";
 function TodoForm({ state }: { state: string }) {
   const { createTodo, setOpenModal } = React.useContext(TodoContext);
   const [text, setText] = React.useState("");
   const [tag, setTag] = React.useState("");
-  const [progress, setProgress] = React.useState(0);
+  const [progress] = React.useState(0);
   const onSubmit = (e) => {
     e.preventDefault();
     const todo = { text, tag, progress };

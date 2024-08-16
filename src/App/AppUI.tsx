@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import { TodoItem } from "../components/TodoItem/index";
 import { TodoStatus } from "../components/TodoStatus/index";

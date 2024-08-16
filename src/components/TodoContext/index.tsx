@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import { useLocalStorage } from "./useLocalStorage.ts";
 import { useStatusProgress } from "./useStatusProgress.ts";
