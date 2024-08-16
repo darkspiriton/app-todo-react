@@ -2,16 +2,20 @@
 
 import React from "react";
 import { CreateTodoButton } from "../CreateTodoButton/index";
+import { TodoContext } from "../TodoContext/index";
 // import Logo from "../assets/logo.svg?react";
 function TodoColumn({
   children,
   title,
-  onCreate,
+  state,
+  onOpenModal,
 }: {
   children: React.ReactNode;
   title: string;
-  onCreate: () => void;
+  state: string;
+  onOpenModal: () => void;
 }) {
+  const { createEnable } = React.useContext(TodoContext);
   return (
     <section className="w-1/3">
       <header className="flex w-full justify-between items-center mb-4">
@@ -19,7 +23,9 @@ function TodoColumn({
           {/* <Logo className="w-[16px] h-[16px] fill-blue-500" /> */}
           {title}
         </h3>
-        <CreateTodoButton onCreate={onCreate}></CreateTodoButton>
+        {createEnable.includes(state) && (
+          <CreateTodoButton onCreate={onOpenModal}></CreateTodoButton>
+        )}
       </header>
       <ul className="flex flex-col gap-4">{children}</ul>
     </section>

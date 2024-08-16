@@ -1,5 +1,5 @@
 import React from "react";
-import { TodoDataColumn, Status } from "./interfaces";
+import { TodoDataColumn, Status } from "../Types/interfaces";
 const useStatusProgress = (
   statusProgress: Status[],
 ) => {

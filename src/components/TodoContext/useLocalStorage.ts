@@ -1,5 +1,5 @@
 import React from "react";
-import { TodoDataColumn } from "./interfaces";
+import { TodoDataColumn } from "../../Types/interfaces";
 
 const useLocalStorage = (itemName: string, itemValue: TodoDataColumn[]) => {
   const [item, setItem] = React.useState(itemValue);

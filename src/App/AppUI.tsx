@@ -2,38 +2,37 @@ import React from "react";
 import { TodoItem } from "../components/TodoItem/index";
 import { TodoStatus } from "../components/TodoStatus/index";
 import { TodoColumn } from "../components/TodoColumn/index";
-import { TodoDataColumn, Status } from "./interfaces";
+import { TodoDataColumn, Status } from "../Types/interfaces";
 import { LoadingTodos } from "../components/LoadingTodos";
 import { ErrorTodos } from "../components/ErrorTodos";
 import { EmptyTodos } from "../components/EmptyTodos";
+import { TodoContext } from "../components/TodoContext";
+import { Modal } from "../components/Modal";
+// import { TodoSearch } from "../components/TodoSearch";
 
-function AppUI({
-  todos,
-  status,
-  createTodo,
-  deleteTodo,
-  moveTodo,
-  loadingTodos,
-  errorTodos,
-  loadingStatus,
-  errorStatus,
-}: {
-  todos: TodoDataColumn[];
-  status: Status[];
-  createTodo: (state: string) => void;
-  deleteTodo: (state: string, text: string) => void;
-  moveTodo: (state: string, text: string) => void;
-  loadingTodos: boolean;
-  errorTodos: boolean;
-  loadingStatus: boolean;
-  errorStatus: boolean;
-}) {
+function AppUI() {
+  const {
+    todos,
+    status,
+    loadingTodos,
+    errorTodos,
+    loadingStatus,
+    errorStatus,
+    createTodo,
+    deleteTodo,
+    moveTodo,
+    openModal,
+    setOpenModal,
+    createState,
+    setCreateState,
+  } = React.useContext(TodoContext);
   return (
     <React.Fragment>
       <section className="bg-[#F2F5FF] h-screen grid gap-4 grid-cols-4 py-10 lg:px-2 xl:px-24">
         <article className="bg-[#FDFDFD] col-span-3 rounded-2xl p-5 flex flex-col gap-5">
           <header>
             <h2 className="text-4xl font-bold">Tasks</h2>
+            {/* <TodoSearch></TodoSearch> */}
           </header>
           <main className="flex h-full gap-4 justify-center">
             {loadingTodos && <LoadingTodos />}
@@ -48,7 +47,11 @@ function AppUI({
                   <TodoColumn
                     key={index}
                     title={todo.title}
-                    onCreate={() => createTodo(todo.state)}
+                    state={todo.state}
+                    onOpenModal={() => {
+                      setCreateState(todo.state);
+                      setOpenModal(true);
+                    }}
                   >
                     {todo.todos.map((itemTodo, index) => (
                       <TodoItem
@@ -95,6 +98,29 @@ function AppUI({
           </main>
         </article>
       </section>
+      {openModal && (
+        <Modal>
+          {/* <ModalContent>
+              <h2 className="text-2xl font-bold">Create a new task</h2>
+              <form onSubmit={handleSubmit}>
+                <input
+                  type="text"
+                  placeholder="Task name"
+                  className="w-full p-2 my-2 border border-gray-300 rounded"
+                  value={taskName}
+                  onChange={(e) => setTaskName(e.target.value)}
+                />
+                <button
+                  type="submit"
+                  className="w-full bg-blue-500 text-white p-2 rounded"
+                >
+                  Create task
+                </button>
+              </form>
+            </ModalContent> */}
+          texto a teletransportar {createState}
+        </Modal>
+      )}
     </React.Fragment>
   );
 }
